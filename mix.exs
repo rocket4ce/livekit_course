@@ -42,6 +42,7 @@ defmodule LivekitCourse.MixProject do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:livekitex, "~> 0.1.33"},
+      {:live_debugger, "~> 0.3.0", only: :dev},
       {:igniter, "~> 0.6", only: [:dev, :test]},
       {:phoenix, "~> 1.8.0"},
       {:phoenix_ecto, "~> 4.5"},
