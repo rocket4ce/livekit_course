@@ -40,6 +40,7 @@ defmodule LivekitCourse.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:tidewave, "~> 0.3", only: [:dev]},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:livekitex, "~> 0.1.33"},
       {:live_debugger, "~> 0.3.0", only: :dev},
