@@ -19,6 +19,7 @@ jobs:
 
     name: Build and test
     runs-on: ubuntu-22.04
+    environment: coolify
 
     services:
       postgres:
@@ -63,11 +64,14 @@ jobs:
     - name: Trigger Coolify deploy webhook
       if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       env:
-        COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
-        COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+        COOLIFY_WEBHOOK: ${{ vars.URL_COOLIFY_DEPLOY }}
+        COOLIFY_TOKEN: ${{ vars.TOKEN_AUTH_COOLIFY_DEPLOY }}
       run: |
         set -euo pipefail
         echo "== Coolify deploy webhook =="
+        echo "Webhook URL: $COOLIFY_WEBHOOK"
+        # Mask token proactively (aunque vars no es secret, mejor ocultar)
+        echo "::add-mask::$COOLIFY_TOKEN"
         if [ -z "${COOLIFY_WEBHOOK:-}" ] || [ -z "${COOLIFY_TOKEN:-}" ]; then
           echo "Secrets absent, skipping deploy trigger." && exit 0
         fi
