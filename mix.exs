@@ -40,6 +40,7 @@ defmodule LivekitCourse.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 3.0"},
       {:tidewave, "~> 0.3", only: [:dev]},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:livekitex, "~> 0.1.33"},
@@ -70,7 +71,8 @@ defmodule LivekitCourse.MixProject do
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:tzdata, "~> 1.1"}
     ]
   end
 
