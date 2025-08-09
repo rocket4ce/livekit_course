@@ -61,36 +61,3 @@ jobs:
         MIX_ENV: test
         DATABASE_URL: postgres://postgres:postgres@localhost/livekit_course_test
       run: mix test
-    - name: Trigger Coolify deploy webhook
-      if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-      env:
-        COOLIFY_WEBHOOK: ${{ vars.URL_COOLIFY_DEPLOY }}
-        COOLIFY_TOKEN: ${{ vars.TOKEN_AUTH_COOLIFY_DEPLOY }}
-      run: |
-        set -euo pipefail
-        if [ -z "${COOLIFY_WEBHOOK:-}" ] || [ -z "${COOLIFY_TOKEN:-}" ]; then
-          echo "Secrets absent, skipping deploy trigger." && exit 0
-        fi
-
-        attempts=5
-        delay=3
-        for i in $(seq 1 $attempts); do
-          echo "Calling webhook (attempt $i)..."
-          http_code=$(curl -sS -o response.json -w "%{http_code}" \
-            -H "Authorization: Bearer $COOLIFY_TOKEN" \
-            --fail \
-            "$COOLIFY_WEBHOOK" || true)
-
-          if [ "${http_code:-000}" -ge 200 ] && [ "$http_code" -lt 300 ]; then
-            echo "Webhook success (HTTP $http_code)"
-            echo "Response (truncated):"; head -c 400 response.json || true; echo
-            exit 0
-          fi
-
-          echo "Failed (HTTP ${http_code:-none})."
-          if [ "$i" -lt "$attempts" ]; then
-            sleep $((delay * i))
-          fi
-        done
-        echo "::error::Webhook failed after $attempts attempts"
-        exit 1
