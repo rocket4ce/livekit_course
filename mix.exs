@@ -40,6 +40,8 @@ defmodule LivekitCourse.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:livekitex, "~> 0.1.33"},
+      {:igniter, "~> 0.6", only: [:dev, :test]},
       {:phoenix, "~> 1.8.0"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13"},
