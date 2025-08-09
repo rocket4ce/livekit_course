@@ -60,3 +60,14 @@ jobs:
         MIX_ENV: test
         DATABASE_URL: postgres://postgres:postgres@localhost/livekit_course_test
       run: mix test
+    - name: Trigger Coolify deploy webhook
+      if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      env:
+        COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+        COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+      run: |
+        # Coolify recomienda GET + Bearer
+        for i in 1 2 3; do
+          curl -fsSL -X GET "$COOLIFY_WEBHOOK" \
+            -H "Authorization: Bearer $COOLIFY_TOKEN" && break || sleep 5
+        done
