@@ -50,7 +50,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("COOLIFY_URL") || "livekit_course.rocket4ce.com"
+  host = System.get_env("COOLIFY_FQDN") || "livekit_course.rocket4ce.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :livekit_course, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
