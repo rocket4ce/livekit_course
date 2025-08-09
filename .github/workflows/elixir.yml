@@ -68,6 +68,6 @@ jobs:
       run: |
         # Coolify recomienda GET + Bearer
         for i in 1 2 3; do
-          curl -fsSL -X GET "$COOLIFY_WEBHOOK" \
-            -H "Authorization: Bearer $COOLIFY_TOKEN" && break || sleep 5
+          curl "$COOLIFY_WEBHOOK" \
+            --header "Authorization: Bearer $COOLIFY_TOKEN" && break || sleep 5
         done
