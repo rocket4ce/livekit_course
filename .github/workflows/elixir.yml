@@ -67,5 +67,5 @@ jobs:
         COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
       run: |
         # Coolify recomienda GET + Bearer
-        curl $COOLIFY_WEBHOOK \
+        curl "$COOLIFY_WEBHOOK"\
         --header "Authorization: Bearer $COOLIFY_TOKEN"
