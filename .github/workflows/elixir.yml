@@ -66,6 +66,31 @@ jobs:
         COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
         COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
       run: |
-        # Coolify recomienda GET + Bearer
-        curl "$COOLIFY_WEBHOOK"\
-        --header "Authorization: Bearer $COOLIFY_TOKEN"
+        set -euo pipefail
+        echo "== Coolify deploy webhook =="
+        if [ -z "${COOLIFY_WEBHOOK:-}" ] || [ -z "${COOLIFY_TOKEN:-}" ]; then
+          echo "Secrets absent, skipping deploy trigger." && exit 0
+        fi
+
+        attempts=5
+        delay=3
+        for i in $(seq 1 $attempts); do
+          echo "Calling webhook (attempt $i)..."
+          http_code=$(curl -sS -o response.json -w "%{http_code}" \
+            -H "Authorization: Bearer $COOLIFY_TOKEN" \
+            --fail \
+            "$COOLIFY_WEBHOOK" || true)
+
+          if [ "${http_code:-000}" -ge 200 ] && [ "$http_code" -lt 300 ]; then
+            echo "Webhook success (HTTP $http_code)"
+            echo "Response (truncated):"; head -c 400 response.json || true; echo
+            exit 0
+          fi
+
+          echo "Failed (HTTP ${http_code:-none})."
+          if [ "$i" -lt "$attempts" ]; then
+            sleep $((delay * i))
+          fi
+        done
+        echo "::error::Webhook failed after $attempts attempts"
+        exit 1
