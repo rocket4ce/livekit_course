@@ -37,7 +37,9 @@ token = Livekitex.AccessToken.create(api_key, api_secret, identity: user_id)
 - `mix setup` - Full project setup (deps, database, assets)
 - `mix precommit` - Pre-commit validation (compile with warnings as errors, format, test)
 - `mix phx.server` - Start development server
+- `mix format` - Run code formatter
 - `mix test` - Run tests
+- `mix credo` - Run code quality checks
 
 ### Asset Management
 - **Tailwind**: Auto-rebuilds in development via watchers in `config/dev.exs`
