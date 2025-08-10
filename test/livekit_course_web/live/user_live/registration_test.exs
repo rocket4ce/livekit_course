@@ -53,7 +53,7 @@ defmodule LivekitCourseWeb.UserLive.RegistrationTest do
 
       # Assert defaults on created user
       user = Accounts.get_user_by_email(email)
-      assert user.role == 0
+  assert user.role == :user
       assert user.time_zone == "America/Santiago"
     end
 
