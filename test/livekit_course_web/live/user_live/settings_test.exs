@@ -57,7 +57,7 @@ defmodule LivekitCourseWeb.UserLive.SettingsTest do
       assert Accounts.get_user_by_email(user.email)
       # Role/time_zone unchanged
       reloaded = Accounts.get_user_by_email(user.email)
-  assert reloaded.role == :user
+      assert reloaded.role == :user
       assert reloaded.time_zone == "America/Santiago"
     end
 

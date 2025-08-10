@@ -25,10 +25,10 @@ defmodule LivekitCourse.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
-  # NOTE: Database default is 0 (see migration). Original enum mapping used [user: 1, admin: 2]
-  # which caused all inserts (default 0) and fixtures (role: 0) to fail validation / load.
-  # We align the enum to underlying integer values: 0 = :user, 1 = :admin.
-  field :role, Ecto.Enum, values: [user: 0, admin: 1]
+    # NOTE: Database default is 0 (see migration). Original enum mapping used [user: 1, admin: 2]
+    # which caused all inserts (default 0) and fixtures (role: 0) to fail validation / load.
+    # We align the enum to underlying integer values: 0 = :user, 1 = :admin.
+    field :role, Ecto.Enum, values: [user: 0, admin: 1]
     field :time_zone, :string, default: "America/Santiago"
 
     timestamps(type: :utc_datetime)

@@ -59,7 +59,7 @@ defmodule LivekitCourseWeb.UserLive.LoginTest do
       assert redirected_to(conn) == ~p"/"
       # Ensure role and time_zone persisted
       reloaded = LivekitCourse.Repo.get!(LivekitCourse.Accounts.User, user.id)
-  assert reloaded.role == :user
+      assert reloaded.role == :user
       assert reloaded.time_zone == "America/Santiago"
     end
 
